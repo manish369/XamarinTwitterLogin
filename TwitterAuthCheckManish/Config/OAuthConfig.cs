@@ -5,7 +5,7 @@ namespace TwitterAuthCheckManish.Config
     public class OAuthConfig
 
     {
-        static HomePage _HomePage;
+       public static HomePage _HomePage;
         static NavigationPage _Navigationpage;
 
         public static Action SuccessFullLogin
@@ -13,7 +13,9 @@ namespace TwitterAuthCheckManish.Config
             get{
                 return new Action(() =>
                 {
-                    _Navigationpage.Navigation.PushModalAsync(_HomePage);
+                _Navigationpage = new NavigationPage();
+                _HomePage = new HomePage();
+                _Navigationpage.Navigation.PushAsync(_HomePage);
                 });
 
                 }
