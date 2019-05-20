@@ -4,6 +4,7 @@ using Android.App;
 using Xamarin.Forms.Platform.Android;
 using TwitterAuthCheckManish;
 using TwitterAuthCheckManish.Droid;
+using TwitterAuthCheckManish.Config;
 using Xamarin.Forms;
 using System.Runtime.Remoting.Contexts;
 using Android.Content;
@@ -24,35 +25,34 @@ namespace TwitterAuthCheckManish.Droid
             base.OnElementChanged(e);
             var activity = this.Context as Activity;
             var Authi = new OAuth1Authenticator(
-            consumerKey: "wJYji5EICJOOoQZUHYHOPqUJH",
-            consumerSecret: "GB27rcwuUWD6PsrDLF4dwYVLcXwK6NZY5AAVjXeiYEZ5gxSXV5",
-            requestTokenUrl: new Uri("https://api.twitter.com/oauth/request_token"),
-            authorizeUrl: new Uri("https://api.twitter.com/oauth/authorize"),
-            accessTokenUrl: new Uri("https://api.twitter.com/oauth/access_token"),
-            callbackUrl: new Uri("http://mobile.twitter.com")
-
+            "wJYji5EICJOOoQZUHYHOPqUJH",
+              "GB27rcwuUWD6PsrDLF4dwYVLcXwK6NZY5AAVjXeiYEZ5gxSXV5",
+               new Uri("https://api.twitter.com/oauth/request_token"),
+             new Uri("https://api.twitter.com/oauth/authorize"),
+              new Uri("https://api.twitter.com/oauth/access_token"),
+             new Uri("https://mobile.twitter.com/home")
             );
 
-            Authi.Completed += (object sender, AuthenticatorCompletedEventArgs evt) => {
-
-                if (evt.IsAuthenticated)
-                {
-                    UserInfo userInfo = new UserInfo();
-
-                    userInfo.Token = evt.Account.Properties["oauth_token"];
-                    userInfo.TokenSecret = evt.Account.Properties["oauth_token_secret"];
-                    userInfo.TwitterId = evt.Account.Properties["user_id"];
-                    userInfo.ScreenName = evt.Account.Properties["screen_name"];
-
-
-                    Console.WriteLine("It working");
-                }
-
-            };
-
-        
-
-            activity.StartActivity(Authi.GetUI(activity));
+          Authi.Completed += Authi_Completed;        
+         activity.StartActivity(Authi.GetUI(activity));
         }
+
+        void Authi_Completed(object sender, AuthenticatorCompletedEventArgs e)
+        {
+            if (e.IsAuthenticated)
+            {
+                UserInfo userInfo = new UserInfo();
+
+                userInfo.Token = e.Account.Properties["oauth_token"];
+                userInfo.TokenSecret = e.Account.Properties["oauth_token_secret"];
+                userInfo.TwitterId = e.Account.Properties["user_id"];
+                userInfo.ScreenName = e.Account.Properties["screen_name"];
+
+                OAuthConfig.SuccessFullLogin.Invoke();
+                Console.WriteLine("It working");
+            }
+
+        }
+
     }
 }
