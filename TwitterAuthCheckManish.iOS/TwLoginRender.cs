@@ -4,6 +4,7 @@ using Xamarin.Forms.Platform.iOS;
 using Xamarin.Auth;
 using TwitterAuthCheckManish.iOS;
 using TwitterAuthCheckManish;
+using TwitterAuthCheckManish.Config;
 
 [assembly: ExportRenderer(typeof(TwLogin), typeof(TwLoginRender))]
 
@@ -47,8 +48,8 @@ namespace TwitterAuthCheckManish.iOS
                     userInfo.TokenSecret = e.Account.Properties["oauth_token_secret"];
                     userInfo.TwitterId = e.Account.Properties["user_id"];
                     userInfo.ScreenName = e.Account.Properties["screen_name"];
-                   
 
+                    OAuthConfig.SuccessFullLogin.Invoke();
                     Console.WriteLine("It working");
                 }
             };
