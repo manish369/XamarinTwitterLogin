@@ -5,7 +5,7 @@ using Xamarin.Auth;
 using TwitterAuthCheckManish.iOS;
 using TwitterAuthCheckManish;
 using TwitterAuthCheckManish.Config;
-
+using System.Threading;
 [assembly: ExportRenderer(typeof(TwLogin), typeof(TwLoginRender))]
 
 namespace TwitterAuthCheckManish.iOS
@@ -13,6 +13,10 @@ namespace TwitterAuthCheckManish.iOS
 
     public class TwLoginRender :PageRenderer
     {
+
+        public static HomePage _HomePage;
+        static NavigationPage _Navigationpage;
+
         public TwLoginRender()
         {
         }
@@ -35,7 +39,7 @@ namespace TwitterAuthCheckManish.iOS
               requestTokenUrl: new Uri("https://api.twitter.com/oauth/request_token"),
               authorizeUrl: new Uri("https://api.twitter.com/oauth/authorize"),
               accessTokenUrl: new Uri("https://api.twitter.com/oauth/access_token"),
-              callbackUrl: new Uri("http://mobile.twitter.com")
+              callbackUrl: new Uri("https://mobile.twitter.com/home")
 
               );
 
@@ -49,7 +53,20 @@ namespace TwitterAuthCheckManish.iOS
                     userInfo.TwitterId = e.Account.Properties["user_id"];
                     userInfo.ScreenName = e.Account.Properties["screen_name"];
 
-                    OAuthConfig.SuccessFullLogin.Invoke();
+                    Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
+                    {
+                        OAuthConfig.SuccessFullLogin.Invoke();
+                        DismissViewController(true, null);
+                        //_Navigationpage = new NavigationPage();
+                       // _Navigationpage.Navigation.PopAsync();
+                       // _Navigationpage.Navigation.PopAsync();
+                        //_Navigationpage = new NavigationPage(new HomePage());
+                       // _HomePage = new HomePage();
+
+                     //_Navigationpage.Navigation.PushModalAsync(_HomePage);
+                     
+                   });
+                   
                     Console.WriteLine("It working");
                 }
             };

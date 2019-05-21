@@ -13,9 +13,10 @@ namespace TwitterAuthCheckManish.Config
             get{
                 return new Action(() =>
                 {
-                _Navigationpage = new NavigationPage();
-                _HomePage = new HomePage();
-                _Navigationpage.Navigation.PushAsync(_HomePage);
+                Application.Current.MainPage = new NavigationPage(new HomePage());
+                //_HomePage = new HomePage();
+                    
+                //_Navigationpage.Navigation.PushModalAsync(_HomePage);
                 });
 
                 }

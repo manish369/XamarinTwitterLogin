@@ -25,12 +25,12 @@ namespace TwitterAuthCheckManish.Droid
             base.OnElementChanged(e);
             var activity = this.Context as Activity;
             var Authi = new OAuth1Authenticator(
-            "wJYji5EICJOOoQZUHYHOPqUJH",
-              "GB27rcwuUWD6PsrDLF4dwYVLcXwK6NZY5AAVjXeiYEZ5gxSXV5",
-               new Uri("https://api.twitter.com/oauth/request_token"),
-             new Uri("https://api.twitter.com/oauth/authorize"),
-              new Uri("https://api.twitter.com/oauth/access_token"),
-             new Uri("https://mobile.twitter.com/home")
+            consumerKey: "wJYji5EICJOOoQZUHYHOPqUJH",
+              consumerSecret: "GB27rcwuUWD6PsrDLF4dwYVLcXwK6NZY5AAVjXeiYEZ5gxSXV5",
+              requestTokenUrl: new Uri("https://api.twitter.com/oauth/request_token"),
+              authorizeUrl: new Uri("https://api.twitter.com/oauth/authorize"),
+              accessTokenUrl: new Uri("https://api.twitter.com/oauth/access_token"),
+              callbackUrl: new Uri("https://mobile.twitter.com/home")
             );
 
           Authi.Completed += Authi_Completed;        
